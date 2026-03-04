@@ -143,6 +143,7 @@ struct PencilCanvasView: UIViewRepresentable {
         private var pinchStartScales: [UUID: CGFloat] = [:]
         private var selectedItemID: UUID?
         private var lastClearSelectionToken = 0
+        private var activeDragIDs: Set<UUID> = []
 
         init(_ parent: PencilCanvasView) {
             self.parent = parent
@@ -168,6 +169,7 @@ struct PencilCanvasView: UIViewRepresentable {
                 dragStartCenters.removeValue(forKey: removedID)
                 dragStartLocations.removeValue(forKey: removedID)
                 pinchStartScales.removeValue(forKey: removedID)
+                activeDragIDs.remove(removedID)
             }
 
             for item in items {
@@ -185,7 +187,13 @@ struct PencilCanvasView: UIViewRepresentable {
                     let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
                     longPress.minimumPressDuration = 0.25
                     longPress.allowableMovement = 12
+
+                    let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+                    pan.maximumNumberOfTouches = 1
+                    longPress.require(toFail: pan)
+
                     newView.addGestureRecognizer(longPress)
+                    newView.addGestureRecognizer(pan)
 
                     let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
                     newView.addGestureRecognizer(pinch)
@@ -202,7 +210,9 @@ struct PencilCanvasView: UIViewRepresentable {
                 imageLayerView.image = UIImage(data: item.imageData)
                 imageLayerView.layer.zPosition = CGFloat(item.zIndex)
                 imageLayerView.setSelected(imageLayerView.itemID == selectedItemID)
-                updateFrame(for: imageLayerView, item: item)
+                if !activeDragIDs.contains(item.id) {
+                    updateFrame(for: imageLayerView, item: item)
+                }
             }
         }
 
@@ -246,14 +256,6 @@ struct PencilCanvasView: UIViewRepresentable {
                 view.setSelected(true)
                 dragStartCenters[view.itemID] = view.center
                 dragStartLocations[view.itemID] = location
-            case .changed:
-                guard let startCenter = dragStartCenters[view.itemID],
-                      let startLocation = dragStartLocations[view.itemID] else { return }
-                let translation = CGPoint(x: location.x - startLocation.x, y: location.y - startLocation.y)
-                let newCenter = CGPoint(x: startCenter.x + translation.x, y: startCenter.y + translation.y)
-                updateItem(id: view.itemID) { item in
-                    item.center = newCenter
-                }
             case .ended, .cancelled:
                 let movement = movementDistance(for: view.itemID, currentLocation: location)
                 dragStartCenters.removeValue(forKey: view.itemID)
@@ -263,6 +265,36 @@ struct PencilCanvasView: UIViewRepresentable {
                 } else {
                     view.setSelected(false)
                     selectedItemID = nil
+                }
+            default:
+                break
+            }
+        }
+
+        @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
+            guard let view = gesture.view as? ImageLayerView,
+                  let containerView else { return }
+            let location = gesture.location(in: containerView)
+
+            switch gesture.state {
+            case .began:
+                selectedItemID = view.itemID
+                view.setSelected(true)
+                dragStartCenters[view.itemID] = view.center
+                dragStartLocations[view.itemID] = location
+                activeDragIDs.insert(view.itemID)
+            case .changed:
+                guard let startCenter = dragStartCenters[view.itemID],
+                      let startLocation = dragStartLocations[view.itemID] else { return }
+                let translation = CGPoint(x: location.x - startLocation.x, y: location.y - startLocation.y)
+                let newCenter = CGPoint(x: startCenter.x + translation.x, y: startCenter.y + translation.y)
+                view.center = newCenter
+            case .ended, .cancelled:
+                activeDragIDs.remove(view.itemID)
+                dragStartCenters.removeValue(forKey: view.itemID)
+                dragStartLocations.removeValue(forKey: view.itemID)
+                updateItem(id: view.itemID) { item in
+                    item.center = view.center
                 }
             default:
                 break

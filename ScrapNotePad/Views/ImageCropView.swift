@@ -34,14 +34,16 @@ struct ImageCropView: View {
     @State private var cropMode: CropMode = .rectangle
     @State private var cropRect: CGRect = .zero
     @State private var dragStartRect: CGRect = .zero
-    @State private var magnificationStartRect: CGRect = .zero
     @State private var freeformPoints: [CGPoint] = []
     @State private var displayRect: CGRect = .zero
+    @State private var zoomScale: CGFloat = 1.0
+    @State private var zoomStartScale: CGFloat = 0
 
     var body: some View {
         NavigationStack {
             GeometryReader { proxy in
-                let rect = aspectFitRect(for: image.size, in: proxy.size)
+                let baseRect = aspectFitRect(for: image.size, in: proxy.size)
+                let zoomedRect = scaledRect(from: baseRect, scale: zoomScale)
 
                 ZStack {
                     Color.black.opacity(0.92).ignoresSafeArea()
@@ -49,29 +51,39 @@ struct ImageCropView: View {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: rect.width, height: rect.height)
-                        .position(x: rect.midX, y: rect.midY)
+                        .frame(width: zoomedRect.width, height: zoomedRect.height)
+                        .position(x: zoomedRect.midX, y: zoomedRect.midY)
 
                     if cropMode == .freeform {
-                        FreeformOverlayView(points: $freeformPoints, size: rect.size)
-                            .frame(width: rect.width, height: rect.height)
-                            .position(x: rect.midX, y: rect.midY)
+                        FreeformOverlayView(points: $freeformPoints, size: zoomedRect.size)
+                            .frame(width: zoomedRect.width, height: zoomedRect.height)
+                            .position(x: zoomedRect.midX, y: zoomedRect.midY)
                     } else {
-                        cropOverlay(in: rect)
+                        cropOverlay(in: zoomedRect)
                     }
                 }
+                .gesture(zoomGesture())
                 .onAppear {
-                    displayRect = rect
+                    displayRect = zoomedRect
                     if cropRect == .zero {
-                        cropRect = defaultCropRect(in: rect)
+                        cropRect = defaultCropRect(in: zoomedRect)
                     }
+                    zoomStartScale = zoomScale
                 }
-                .onChange(of: rect) { _, newRect in
-                    displayRect = newRect
+                .onChange(of: baseRect) { _, _ in
+                    displayRect = zoomedRect
+                }
+                .onChange(of: zoomScale) { _, _ in
+                    displayRect = zoomedRect
+                    if cropMode != .freeform {
+                        cropRect = clampRect(cropRect, in: zoomedRect)
+                    }
                 }
                 .onChange(of: cropMode) { _, _ in
                     freeformPoints = []
-                    cropRect = defaultCropRect(in: rect)
+                    cropRect = defaultCropRect(in: zoomedRect)
+                    zoomScale = 1.0
+                    zoomStartScale = 1.0
                 }
             }
             .navigationTitle("トリミング")
@@ -115,7 +127,6 @@ struct ImageCropView: View {
                 .stroke(Color.white, lineWidth: 2)
         }
         .gesture(dragGesture(in: displayRect))
-        .gesture(magnificationGesture(in: displayRect))
     }
 
     private func dragGesture(in displayRect: CGRect) -> some Gesture {
@@ -132,19 +143,6 @@ struct ImageCropView: View {
             }
     }
 
-    private func magnificationGesture(in displayRect: CGRect) -> some Gesture {
-        MagnificationGesture()
-            .onChanged { value in
-                if magnificationStartRect == .zero {
-                    magnificationStartRect = cropRect
-                }
-                let scaled = cropRectScaled(from: magnificationStartRect, scale: value, in: displayRect)
-                cropRect = scaled
-            }
-            .onEnded { _ in
-                magnificationStartRect = .zero
-            }
-    }
 
     private func cropMaskPath(in displayRect: CGRect) -> Path {
         let rect = cropRect.isEmpty ? defaultCropRect(in: displayRect) : cropRect
@@ -167,23 +165,6 @@ struct ImageCropView: View {
         return rect
     }
 
-    private func cropRectScaled(from start: CGRect, scale: CGFloat, in displayRect: CGRect) -> CGRect {
-        let minSize: CGFloat = 60
-        var target = start
-        var newWidth = max(minSize, start.width * scale)
-        var newHeight = max(minSize, start.height * scale)
-
-        if cropMode == .square || cropMode == .circle {
-            let side = max(minSize, min(newWidth, newHeight))
-            newWidth = side
-            newHeight = side
-        }
-
-        target.size = CGSize(width: newWidth, height: newHeight)
-        target.origin.x = max(displayRect.minX, min(target.midX - newWidth * 0.5, displayRect.maxX - newWidth))
-        target.origin.y = max(displayRect.minY, min(target.midY - newHeight * 0.5, displayRect.maxY - newHeight))
-        return target
-    }
 
     private func defaultCropRect(in displayRect: CGRect) -> CGRect {
         let insetX = displayRect.width * 0.15
@@ -196,6 +177,35 @@ struct ImageCropView: View {
             rect.origin.y = displayRect.midY - side * 0.5
         }
         return rect
+    }
+
+    private func clampRect(_ rect: CGRect, in displayRect: CGRect) -> CGRect {
+        var rect = rect
+        rect.origin.x = max(displayRect.minX, min(rect.origin.x, displayRect.maxX - rect.width))
+        rect.origin.y = max(displayRect.minY, min(rect.origin.y, displayRect.maxY - rect.height))
+        rect.size.width = min(rect.width, displayRect.width)
+        rect.size.height = min(rect.height, displayRect.height)
+        return rect
+    }
+
+    private func scaledRect(from rect: CGRect, scale: CGFloat) -> CGRect {
+        let clamped = max(1.0, min(scale, 4.0))
+        let size = CGSize(width: rect.width * clamped, height: rect.height * clamped)
+        let origin = CGPoint(x: rect.midX - size.width * 0.5, y: rect.midY - size.height * 0.5)
+        return CGRect(origin: origin, size: size)
+    }
+
+    private func zoomGesture() -> some Gesture {
+        MagnificationGesture()
+            .onChanged { value in
+                if zoomStartScale == 0 {
+                    zoomStartScale = zoomScale
+                }
+                zoomScale = max(1.0, min(4.0, zoomStartScale * value))
+            }
+            .onEnded { _ in
+                zoomStartScale = zoomScale
+            }
     }
 
     private func aspectFitRect(for imageSize: CGSize, in containerSize: CGSize) -> CGRect {
