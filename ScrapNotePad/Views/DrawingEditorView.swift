@@ -8,10 +8,15 @@ struct DrawingEditorView: View {
     @Binding var selectedPageID: UUID?
 
     @State private var drawingData = Data()
+    @State private var imageItems: [ScrapImageItem] = []
     @State private var canvasView: PKCanvasView?
     @State private var allowsFingerDrawing = true
-    @State private var selectedPhotoItem: PhotosPickerItem?
+    @State private var selectedPhotoItems: [PhotosPickerItem] = []
     @State private var pageTurnForward = true
+    @State private var activeCropImageID: UUID?
+    @State private var cropTarget: ScrapImageItem?
+
+    private let pageSize = CGSize(width: 1600, height: 2200)
 
     var body: some View {
         Group {
@@ -25,6 +30,8 @@ struct DrawingEditorView: View {
                     PencilCanvasView(
                         drawingData: $drawingData,
                         backgroundImageData: page.backgroundImageData,
+                        imageItems: $imageItems,
+                        activeCropImageID: $activeCropImageID,
                         canvasViewRef: $canvasView,
                         allowsFingerDrawing: allowsFingerDrawing
                     )
@@ -36,9 +43,11 @@ struct DrawingEditorView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear {
                     drawingData = page.drawingData
+                    imageItems = page.imageItems
                 }
                 .onChange(of: page.id) { _, _ in
                     drawingData = page.drawingData
+                    imageItems = page.imageItems
                 }
                 .onChange(of: selectedPageID) { oldValue, newValue in
                     guard let oldID = oldValue,
@@ -54,15 +63,37 @@ struct DrawingEditorView: View {
                 .onChange(of: drawingData) { _, newData in
                     store.updateDrawing(notebookID: notebookID, pageID: pageID, drawingData: newData)
                 }
-                .onChange(of: selectedPhotoItem) { _, item in
-                    guard let item else { return }
+                .onChange(of: imageItems) { _, newItems in
+                    store.updateImageItems(notebookID: notebookID, pageID: pageID, imageItems: newItems)
+                }
+                .onChange(of: selectedPhotoItems) { _, items in
+                    guard !items.isEmpty else { return }
                     Task {
-                        if let data = try? await item.loadTransferable(type: Data.self) {
-                            await MainActor.run {
-                                store.updateBackgroundImage(notebookID: notebookID, pageID: pageID, imageData: data)
-                            }
+                        let loadedItems = await loadImageItems(from: items)
+                        await MainActor.run {
+                            imageItems.append(contentsOf: loadedItems)
+                            selectedPhotoItems = []
                         }
                     }
+                }
+                .onChange(of: activeCropImageID) { _, newID in
+                    guard let newID,
+                          let item = imageItems.first(where: { $0.id == newID }) else { return }
+                    cropTarget = item
+                }
+                .fullScreenCover(item: $cropTarget) { item in
+                    ImageCropView(
+                        image: UIImage(data: item.imageData) ?? UIImage(),
+                        onCancel: {
+                            cropTarget = nil
+                            activeCropImageID = nil
+                        },
+                        onApply: { croppedImage in
+                            applyCropResult(for: item.id, croppedImage: croppedImage)
+                            cropTarget = nil
+                            activeCropImageID = nil
+                        }
+                    )
                 }
                 .gesture(
                     DragGesture(minimumDistance: 30)
@@ -88,7 +119,7 @@ struct DrawingEditorView: View {
                             Label("Next", systemImage: "chevron.right")
                         }
 
-                        PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+                        PhotosPicker(selection: $selectedPhotoItems, matching: .images, photoLibrary: .shared()) {
                             Label("Image", systemImage: "photo")
                         }
 
@@ -120,6 +151,55 @@ struct DrawingEditorView: View {
                 ContentUnavailableView("Pageを選択", systemImage: "scribble", description: Text("中央カラムからページを選ぶとここで編集できます"))
             }
         }
+    }
+
+    private func applyCropResult(for id: UUID, croppedImage: UIImage) {
+        guard let data = croppedImage.pngData() else { return }
+        var items = imageItems
+        guard let index = items.firstIndex(where: { $0.id == id }) else { return }
+        let currentDisplaySize = CGSize(
+            width: items[index].baseSize.width * items[index].scale,
+            height: items[index].baseSize.height * items[index].scale
+        )
+        let newBaseSize = croppedImage.size
+        let scaleX = currentDisplaySize.width / max(newBaseSize.width, 1)
+        let scaleY = currentDisplaySize.height / max(newBaseSize.height, 1)
+        let newScale = min(scaleX, scaleY)
+
+        items[index].imageData = data
+        items[index].baseSize = newBaseSize
+        items[index].scale = max(newScale, 0.1)
+        imageItems = items
+    }
+
+    private func loadImageItems(from items: [PhotosPickerItem]) async -> [ScrapImageItem] {
+        var results: [ScrapImageItem] = []
+        for item in items {
+            guard let data = try? await item.loadTransferable(type: Data.self),
+                  let image = UIImage(data: data) else { continue }
+            let baseSize = fittedBaseSize(for: image.size)
+            let newItem = ScrapImageItem(
+                imageData: data,
+                center: CGPoint(x: pageSize.width * 0.5, y: pageSize.height * 0.5),
+                baseSize: baseSize,
+                scale: 1.0,
+                zIndex: nextZIndex()
+            )
+            results.append(newItem)
+        }
+        return results
+    }
+
+    private func fittedBaseSize(for imageSize: CGSize) -> CGSize {
+        let maxDimension: CGFloat = 700
+        let widthScale = maxDimension / max(imageSize.width, 1)
+        let heightScale = maxDimension / max(imageSize.height, 1)
+        let scale = min(1, min(widthScale, heightScale))
+        return CGSize(width: imageSize.width * scale, height: imageSize.height * scale)
+    }
+
+    private func nextZIndex() -> Double {
+        (imageItems.map { $0.zIndex }.max() ?? -1) + 1
     }
 
     private func goToNextPage(notebookID: UUID, pageID: UUID) {
