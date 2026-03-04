@@ -1,0 +1,373 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0ABDE69A8AB7D7DFC2A6E882 /* NotebookListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B0B2439FC68620E5C1FCEF /* NotebookListView.swift */; };
+		1713FE6C2A1195C9BDE66FE7 /* PencilCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEE607817638DBC921580FD /* PencilCanvasView.swift */; };
+		3FA506278B0DCC8AA4245CAD /* NotebookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64322F66E399B9FE00941A4 /* NotebookStore.swift */; };
+		41ADC8A43A00141710451E38 /* PageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D693439582A360EC64E625 /* PageGridView.swift */; };
+		699C9BFF890A9D8F68B224F6 /* Notebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427BDD28547BE6D98ED88D77 /* Notebook.swift */; };
+		7555E808FE754D4832D8C293 /* ScrapNotePadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0E51FE82DE55BC50776CE /* ScrapNotePadApp.swift */; };
+		C8270F17D5A07A01888439D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C702E176CDFDBBF33CC822B8 /* Assets.xcassets */; };
+		F18128D0488D6ACB9A2C0BAE /* RootSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5A6C5B2E72AF4C5F4DC470 /* RootSplitView.swift */; };
+		F60524D166C602A271169C01 /* DrawingEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA72B196CF3D371D555CA34 /* DrawingEditorView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		18D693439582A360EC64E625 /* PageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageGridView.swift; sourceTree = "<group>"; };
+		2DA72B196CF3D371D555CA34 /* DrawingEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingEditorView.swift; sourceTree = "<group>"; };
+		3EEE607817638DBC921580FD /* PencilCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PencilCanvasView.swift; sourceTree = "<group>"; };
+		427BDD28547BE6D98ED88D77 /* Notebook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notebook.swift; sourceTree = "<group>"; };
+		5558AE9024E6D4D8FA2E406C /* ScrapNotePad.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ScrapNotePad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E5A6C5B2E72AF4C5F4DC470 /* RootSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootSplitView.swift; sourceTree = "<group>"; };
+		A7B0B2439FC68620E5C1FCEF /* NotebookListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookListView.swift; sourceTree = "<group>"; };
+		C702E176CDFDBBF33CC822B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CEB0E51FE82DE55BC50776CE /* ScrapNotePadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapNotePadApp.swift; sourceTree = "<group>"; };
+		E64322F66E399B9FE00941A4 /* NotebookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookStore.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0A12842970EF532979C380F8 /* ScrapNotePad */ = {
+			isa = PBXGroup;
+			children = (
+				3BDD3F5F96316592DB593123 /* App */,
+				7D9D1AB5D9854B5AA41CA2B9 /* Models */,
+				4DBE2FFDEBC6F6C40C784F36 /* Resources */,
+				552EC1DEA1E93FA110B1A9A5 /* Store */,
+				6458812107E2C77E25662465 /* Views */,
+			);
+			path = ScrapNotePad;
+			sourceTree = "<group>";
+		};
+		35DF827BCABFFDE4DD12EA35 = {
+			isa = PBXGroup;
+			children = (
+				0A12842970EF532979C380F8 /* ScrapNotePad */,
+				E5BAB70420FAB37FB65BBDEB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3BDD3F5F96316592DB593123 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				CEB0E51FE82DE55BC50776CE /* ScrapNotePadApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		4DBE2FFDEBC6F6C40C784F36 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C702E176CDFDBBF33CC822B8 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		552EC1DEA1E93FA110B1A9A5 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				E64322F66E399B9FE00941A4 /* NotebookStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		6458812107E2C77E25662465 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2DA72B196CF3D371D555CA34 /* DrawingEditorView.swift */,
+				A7B0B2439FC68620E5C1FCEF /* NotebookListView.swift */,
+				18D693439582A360EC64E625 /* PageGridView.swift */,
+				3EEE607817638DBC921580FD /* PencilCanvasView.swift */,
+				8E5A6C5B2E72AF4C5F4DC470 /* RootSplitView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7D9D1AB5D9854B5AA41CA2B9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				427BDD28547BE6D98ED88D77 /* Notebook.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E5BAB70420FAB37FB65BBDEB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5558AE9024E6D4D8FA2E406C /* ScrapNotePad.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		26253DCCA8AA366CDBFD5081 /* ScrapNotePad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B0371D07CCD3472C172FF37 /* Build configuration list for PBXNativeTarget "ScrapNotePad" */;
+			buildPhases = (
+				74D2DB53D34829596B15BA51 /* Sources */,
+				B1A4BD4AA5A27DA6CB3A9ABF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScrapNotePad;
+			packageProductDependencies = (
+			);
+			productName = ScrapNotePad;
+			productReference = 5558AE9024E6D4D8FA2E406C /* ScrapNotePad.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		480241C9B6D0CA7902C75E7F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+			};
+			buildConfigurationList = 38C79A8ED4934B08C17DADE6 /* Build configuration list for PBXProject "ScrapNotePad" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 35DF827BCABFFDE4DD12EA35;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				26253DCCA8AA366CDBFD5081 /* ScrapNotePad */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B1A4BD4AA5A27DA6CB3A9ABF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8270F17D5A07A01888439D8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		74D2DB53D34829596B15BA51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F60524D166C602A271169C01 /* DrawingEditorView.swift in Sources */,
+				699C9BFF890A9D8F68B224F6 /* Notebook.swift in Sources */,
+				0ABDE69A8AB7D7DFC2A6E882 /* NotebookListView.swift in Sources */,
+				3FA506278B0DCC8AA4245CAD /* NotebookStore.swift in Sources */,
+				41ADC8A43A00141710451E38 /* PageGridView.swift in Sources */,
+				1713FE6C2A1195C9BDE66FE7 /* PencilCanvasView.swift in Sources */,
+				F18128D0488D6ACB9A2C0BAE /* RootSplitView.swift in Sources */,
+				7555E808FE754D4832D8C293 /* ScrapNotePadApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		495282668A51B9E609DA25C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = ScrapNotePad;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		7602522F42CC3ED0401BD773 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "スクラップノートに写真を貼り付けるために使用します。";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				"INFOPLIST_KEY_UISupportedInterfaceOrientations~ipad" = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.juriohto.ScrapNotePad;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		774887C92F03DD3F49A48AC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "スクラップノートに写真を貼り付けるために使用します。";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				"INFOPLIST_KEY_UISupportedInterfaceOrientations~ipad" = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.juriohto.ScrapNotePad;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8FEB1D955DE0EEBD6D5604AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = ScrapNotePad;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		38C79A8ED4934B08C17DADE6 /* Build configuration list for PBXProject "ScrapNotePad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				495282668A51B9E609DA25C3 /* Debug */,
+				8FEB1D955DE0EEBD6D5604AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5B0371D07CCD3472C172FF37 /* Build configuration list for PBXNativeTarget "ScrapNotePad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				774887C92F03DD3F49A48AC3 /* Debug */,
+				7602522F42CC3ED0401BD773 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 480241C9B6D0CA7902C75E7F /* Project object */;
+}
