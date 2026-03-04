@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		41ADC8A43A00141710451E38 /* PageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D693439582A360EC64E625 /* PageGridView.swift */; };
 		699C9BFF890A9D8F68B224F6 /* Notebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427BDD28547BE6D98ED88D77 /* Notebook.swift */; };
 		7555E808FE754D4832D8C293 /* ScrapNotePadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0E51FE82DE55BC50776CE /* ScrapNotePadApp.swift */; };
+		912AD1782F585C1E00A2BBFA /* ImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912AD1772F585C1D00A2BBFA /* ImageCropView.swift */; };
 		C8270F17D5A07A01888439D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C702E176CDFDBBF33CC822B8 /* Assets.xcassets */; };
 		F18128D0488D6ACB9A2C0BAE /* RootSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5A6C5B2E72AF4C5F4DC470 /* RootSplitView.swift */; };
 		F60524D166C602A271169C01 /* DrawingEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA72B196CF3D371D555CA34 /* DrawingEditorView.swift */; };
@@ -25,6 +26,7 @@
 		427BDD28547BE6D98ED88D77 /* Notebook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notebook.swift; sourceTree = "<group>"; };
 		5558AE9024E6D4D8FA2E406C /* ScrapNotePad.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ScrapNotePad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E5A6C5B2E72AF4C5F4DC470 /* RootSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootSplitView.swift; sourceTree = "<group>"; };
+		912AD1772F585C1D00A2BBFA /* ImageCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropView.swift; sourceTree = "<group>"; };
 		A7B0B2439FC68620E5C1FCEF /* NotebookListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookListView.swift; sourceTree = "<group>"; };
 		C702E176CDFDBBF33CC822B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEB0E51FE82DE55BC50776CE /* ScrapNotePadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapNotePadApp.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				18D693439582A360EC64E625 /* PageGridView.swift */,
 				3EEE607817638DBC921580FD /* PencilCanvasView.swift */,
 				8E5A6C5B2E72AF4C5F4DC470 /* RootSplitView.swift */,
+				912AD1772F585C1D00A2BBFA /* ImageCropView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -144,7 +147,6 @@
 			);
 			mainGroup = 35DF827BCABFFDE4DD12EA35;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -174,6 +176,7 @@
 				0ABDE69A8AB7D7DFC2A6E882 /* NotebookListView.swift in Sources */,
 				3FA506278B0DCC8AA4245CAD /* NotebookStore.swift in Sources */,
 				41ADC8A43A00141710451E38 /* PageGridView.swift in Sources */,
+				912AD1782F585C1E00A2BBFA /* ImageCropView.swift in Sources */,
 				1713FE6C2A1195C9BDE66FE7 /* PencilCanvasView.swift in Sources */,
 				F18128D0488D6ACB9A2C0BAE /* RootSplitView.swift in Sources */,
 				7555E808FE754D4832D8C293 /* ScrapNotePadApp.swift in Sources */,

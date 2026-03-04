@@ -91,6 +91,15 @@ final class NotebookStore: ObservableObject {
         save()
     }
 
+    func updateImageItems(notebookID: UUID, pageID: UUID, imageItems: [ScrapImageItem]) {
+        guard let notebookIndex = notebooks.firstIndex(where: { $0.id == notebookID }) else { return }
+        guard let pageIndex = notebooks[notebookIndex].pages.firstIndex(where: { $0.id == pageID }) else { return }
+        notebooks[notebookIndex].pages[pageIndex].imageItems = imageItems
+        notebooks[notebookIndex].pages[pageIndex].updatedAt = .now
+        notebooks[notebookIndex].updatedAt = .now
+        save()
+    }
+
     private func adjacentPageID(notebookID: UUID, currentPageID: UUID, offset: Int) -> UUID? {
         guard let notebookIndex = notebooks.firstIndex(where: { $0.id == notebookID }) else { return nil }
         let pages = notebooks[notebookIndex].pages

@@ -10,11 +10,11 @@ struct DrawingEditorView: View {
     @State private var drawingData = Data()
     @State private var imageItems: [ScrapImageItem] = []
     @State private var canvasView: PKCanvasView?
-    @State private var allowsFingerDrawing = true
     @State private var selectedPhotoItems: [PhotosPickerItem] = []
     @State private var pageTurnForward = true
     @State private var activeCropImageID: UUID?
     @State private var cropTarget: ScrapImageItem?
+    @State private var clearSelectionToken = 0
 
     private let pageSize = CGSize(width: 1600, height: 2200)
 
@@ -32,8 +32,8 @@ struct DrawingEditorView: View {
                         backgroundImageData: page.backgroundImageData,
                         imageItems: $imageItems,
                         activeCropImageID: $activeCropImageID,
+                        clearSelectionToken: $clearSelectionToken,
                         canvasViewRef: $canvasView,
-                        allowsFingerDrawing: allowsFingerDrawing
                     )
                     .padding(20)
                     .id(page.id)
@@ -87,11 +87,13 @@ struct DrawingEditorView: View {
                         onCancel: {
                             cropTarget = nil
                             activeCropImageID = nil
+                            clearSelectionToken += 1
                         },
                         onApply: { croppedImage in
                             applyCropResult(for: item.id, croppedImage: croppedImage)
                             cropTarget = nil
                             activeCropImageID = nil
+                            clearSelectionToken += 1
                         }
                     )
                 }
@@ -124,12 +126,6 @@ struct DrawingEditorView: View {
                         }
 
                         Button {
-                            store.updateBackgroundImage(notebookID: notebookID, pageID: pageID, imageData: nil)
-                        } label: {
-                            Label("Remove Image", systemImage: "photo.badge.minus")
-                        }
-
-                        Button {
                             canvasView?.undoManager?.undo()
                         } label: {
                             Label("Undo", systemImage: "arrow.uturn.backward")
@@ -140,11 +136,6 @@ struct DrawingEditorView: View {
                         } label: {
                             Label("Redo", systemImage: "arrow.uturn.forward")
                         }
-
-                        Toggle(isOn: $allowsFingerDrawing) {
-                            Label("Finger", systemImage: "hand.draw")
-                        }
-                        .toggleStyle(.button)
                     }
                 }
             } else {
@@ -174,6 +165,7 @@ struct DrawingEditorView: View {
 
     private func loadImageItems(from items: [PhotosPickerItem]) async -> [ScrapImageItem] {
         var results: [ScrapImageItem] = []
+        var nextIndex = nextZIndex()
         for item in items {
             guard let data = try? await item.loadTransferable(type: Data.self),
                   let image = UIImage(data: data) else { continue }
@@ -183,8 +175,9 @@ struct DrawingEditorView: View {
                 center: CGPoint(x: pageSize.width * 0.5, y: pageSize.height * 0.5),
                 baseSize: baseSize,
                 scale: 1.0,
-                zIndex: nextZIndex()
+                zIndex: nextIndex
             )
+            nextIndex += 1
             results.append(newItem)
         }
         return results
